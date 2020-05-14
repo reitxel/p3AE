@@ -17,8 +17,15 @@ hist_f(1) = f_best;
         if (f_x < f_best)
             astar = s;
             f_best = f_x;
+            landscape(s(1),s(2))=f_x; %asigno las coordenadas del vector random s a la funcion minimizada de cost
         end
         hist_f(i) = f_best; %en cada interaccion del bucle almaceno la mejor fitness que hemos encontrado hasta el momento
-        plot(hist_f) % drawnow() end
+        figure(1);
+        plot(hist_f) 
+        %drawnow() 
     end
+    figure(2); %creo otra figura para el landscape
+    surf(-landscape) %lo grafico al reves para visualizarlo mejor (sino es muy oscuro)
+    view(3) %3D
+    colorbar %me muestra la barra lateral de leyenda de color
 end
