@@ -14,14 +14,15 @@ hist_f(1) = f_best;
     for (i=2:niter)
         s=randi(6,2,1);
         f_x = func(s,map);
+        landscape(s(1),s(2))=f_x;
         if (f_x < f_best)
             astar = s;
             f_best = f_x;
-            landscape(s(1),s(2))=f_x; %asigno las coordenadas del vector random s a la funcion minimizada de cost
+             %asigno las coordenadas del vector random s a la funcion minimizada de cost
         end
         hist_f(i) = f_best; %en cada interaccion del bucle almaceno la mejor fitness que hemos encontrado hasta el momento
         figure(1);
-        plot(hist_f) 
+        %plot(hist_f) 
         %drawnow() 
     end
     figure(2); %creo otra figura para el landscape
