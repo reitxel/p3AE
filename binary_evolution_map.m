@@ -1,18 +1,25 @@
-function [parent, hist_f] = binary_evolution_map(func, map, niter) 
+function [parent, hist_f] = binary_evolution_map(func, map, niter, n) 
 % [parent, hist_f] = binary_evolution(@counting_ones, 100, 1000)
 % ahora no generamos cada estado independientemente del previo
 % sino que hay una relacion de madre-descendencia
+    p=1/n;
     hist_f = zeros(1,niter);
     parent = randi(6,2,1); %genera una matriz con valores de 0 a 6, de 2 columnas y 1 dimension
     f_parent = func(parent, map);
     hist_f(1) = f_parent; %hacemos un historico para registrar todas las fitness y ver la trayectoria evolutiva
-    %lanscape=0;
     for i = 2:niter
-        bits = randi([-1,1],2,1); %generamos un vector aleatorio de bits de entre los vecinos
-        x = parent+bits; 
+        bits = rand(1,2)>p; %logical array, 1 cuando supera la tasa de mutacion, entonces muta
+        if bits(1)==1 && bits(2)==1
+            x=randi(6,2,1);
+        elseif bits(1)==1 && bits(2)==0
+            x=[randi(6),parent(2)];
+        elseif bits(1)==0 && bits(2)==1
+            x=[parent(1),randi(6)];
+        else
+            x=parent;
+        end
         f_x = func (x,map);
-        x=abs(x);
-        landscape(x(1),x(2))=func (x,map);
+        landscape(x(1),x(2))=f_x;
         if (f_x <= f_parent)
             parent = x;
             f_parent = f_x;
